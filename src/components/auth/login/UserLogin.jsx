@@ -4,7 +4,7 @@ import auth from "../../../assets/images/userlogin.png";
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
-function Login() {
+function UserLogin() {
  const [email, setEmail] = useState("");
  const [password, setPassword] = useState("");
  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -113,4 +113,4 @@ function Login() {
  );
 }
 
-export default Login;
+export default UserLogin;

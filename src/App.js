@@ -10,12 +10,14 @@ import Form from './components/forms/Form';
 import Pages from './components/Pages/Pages';
 import AdminSms from './components/sms/AdminSms';
 import AdminSettings from './components/settings/AdminSettings';
+import UserLogin from './components/auth/login/UserLogin';
 
 function App() {
   return (
     <div>
       <Routes>
         <Route path='/login' element={<Login />} />
+        <Route path='/user-login' element={<UserLogin />} />
         <Route path='dashboard' element={<DashboardPanel />}>
           <Route path='form' element={<Form />} />
         </Route>

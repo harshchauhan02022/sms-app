@@ -30,7 +30,10 @@ function Login() {
             const response = await axios.post("http://192.168.29.20:9090/admin/log-in", { email, password });
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("userEmail", email);
+            localStorage.setItem("role", response.data.role_TYPE[0].authority);
             navigate("/dashboard");
+            // console.log(response.data.role_TYPE[0].authority            );
+            
         } catch (error) {
             console.error("Login error", error);
         }

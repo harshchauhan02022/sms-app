@@ -14,7 +14,7 @@ const Header = ({ toggle, userEmail, logout }) => {
     };
 
     return (
-        <header>
+        <header className="justify-content-md-end">
             <div className="toggle d-xl-none d-block" onClick={toggle}>
                 <CiMenuBurger />
             </div>
