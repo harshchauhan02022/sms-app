@@ -3,9 +3,9 @@ import axios from "axios";
 
 const EditPassword = ({ user, Id, handleSave }) => {
   const [formData, setFormData] = useState({
-    oldPassword: "",
+    currentEmail: "",
     newPassword: "",
-    id: Id,
+    currentPassword: "",
   });
 
   const token = localStorage.getItem("token");
@@ -19,11 +19,15 @@ const EditPassword = ({ user, Id, handleSave }) => {
   };
 
   const handleUpdateSetting = async () => {
-    if (role == "ROLE_ADMIN") {
-      try {
+    try {
+      if (role === "ROLE_ADMIN") {
+        // Admin will update email and password
         await axios.put(
-          `http://192.168.29.20:9090/admin/66d006cee7330378a4427f04/change-password`,
-          formData,
+          `http://192.168.29.20:9090/admin/update-password`,
+          {
+            currentEmail: formData.currentEmail,
+            newPassword: formData.newPassword,
+          },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -31,22 +35,25 @@ const EditPassword = ({ user, Id, handleSave }) => {
             },
           }
         );
-        alert("Password updated successfully!");
-        handleSave(formData);
-      } catch (error) {
-        console.error("Error updating password:", error);
-        alert("Failed to update password.");
+        alert("Admin password updated successfully!");
+      } else {
+        // User will update old password and new password
+        await axios.put(
+          `http://192.168.29.20:9090/user/change-password`,
+          {
+            currentPassword: formData.currentPassword,
+            newPassword: formData.newPassword,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        alert("User password updated successfully!");
       }
-    }
-    try {
-      await axios.put(`http://192.168.29.20:9090/user/change-password`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      alert("Password updated successfully!");
-      handleSave(formData); // Call handleSave with updated data to reflect changes in the parent component
+      handleSave(formData); // Reflect changes in the parent component
     } catch (error) {
       console.error("Error updating password:", error);
       alert("Failed to update password.");
@@ -56,28 +63,57 @@ const EditPassword = ({ user, Id, handleSave }) => {
   return (
     <form className="form">
       <div className="row">
-        <div className="col-md-6">
-          <label>Old Password</label>
-          <input
-            type="password" // Set the input type to password for security
-            name="oldPassword"
-            value={formData.oldPassword}
-            onChange={handleInputChange}
-            className="form-control"
-            placeholder="Enter your old password"
-          />
-        </div>
-        <div className="col-md-6">
-          <label>New Password</label>
-          <input
-            type="password" // Set the input type to password for security
-            name="newPassword"
-            value={formData.newPassword}
-            onChange={handleInputChange}
-            className="form-control"
-            placeholder="Enter your new password"
-          />
-        </div>
+        {role === "ROLE_ADMIN" ? (
+          <>
+            <div className="col-md-6">
+              <label>Current Email</label>
+              <input
+                type="email"
+                name="currentEmail"
+                value={formData.currentEmail}
+                onChange={handleInputChange}
+                className="form-control"
+                placeholder=""
+              />
+            </div>
+            <div className="col-md-6">
+              <label>New Password</label>
+              <input
+                type="password"
+                name="newPassword"
+                value={formData.newPassword}
+                onChange={handleInputChange}
+                className="form-control"
+                placeholder=""
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="col-md-6">
+              <label>Old Password</label>
+              <input
+                type="password"
+                name="currentPassword"
+                value={formData.currentPassword}
+                onChange={handleInputChange}
+                className="form-control"
+                placeholder=""
+              />
+            </div>
+            <div className="col-md-6">
+              <label>New Password</label>
+              <input
+                type="password"
+                name="newPassword"
+                value={formData.newPassword}
+                onChange={handleInputChange}
+                className="form-control"
+                placeholder=""
+              />
+            </div>
+          </>
+        )}
         <div className="col-12 mt-4">
           <div className="d-flex justify-content-between">
             <button

@@ -2,32 +2,46 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const EditSetting = ({ user, id, handleSave }) => {
-  const [Email, setEmail] = useState('');
+  const [Email, setEmail] = useState(''); // Current Email
+  const [newEmail, setNewEmail] = useState(''); // New Email
   const [Data, setData] = useState({});
 
   const token = localStorage.getItem('token');
 
-  const handleInputChange = (e) => {
-    const newEmail = e.target.value;
-    setEmail(newEmail);
-    setData({ newEmail });  // Update the Data object directly
+  // Handler for current email change
+  const handleCurrentEmailChange = (e) => {
+    const updatedCurrentEmail = e.target.value;
+    setEmail(updatedCurrentEmail);
+    setData({
+      ...Data, // Spread the previous state to ensure other fields (if any) are preserved
+      currentEmail: updatedCurrentEmail,
+    });
+  };
+
+  // Handler for new email change
+  const handleNewEmailChange = (e) => {
+    const updatedNewEmail = e.target.value;
+    setNewEmail(updatedNewEmail);
+    setData({
+      ...Data,
+      newEmail: updatedNewEmail,
+    });
   };
 
   const handleUpdateSetting = async () => {
     try {
-      // Ensure Data contains the latest email before making the request
       await axios.put(
-        `http://192.168.29.20:9090/admin/66d006cee7330378a4427f04/change-email`,
-        Data, // Send Data as the request body
+        `http://192.168.29.20:9090/admin/update-email`, // Fixed the typo in the URL
+        Data, // Send the updated Data object
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json', // Ensure correct content type
+            'Content-Type': 'application/json',
           },
         }
       );
       alert('Email updated successfully!');
-      handleSave(Email); // Call handleSave with updated email
+      handleSave(newEmail); // Call handleSave with the updated email
     } catch (error) {
       console.error('Error updating email:', error);
       alert('Failed to update email.');
@@ -37,13 +51,23 @@ const EditSetting = ({ user, id, handleSave }) => {
   return (
     <form className="form">
       <div className="row">
-        <div className="col-md-12">
-          <label>Email</label>
+        <div className="col-md-6">
+          <label>Current Email</label>
           <input
             type="email"
             name="email"
             value={Email}
-            onChange={handleInputChange}
+            onChange={handleCurrentEmailChange}
+            className="form-control"
+          />
+        </div>
+        <div className="col-md-6">
+          <label>New Email</label>
+          <input
+            type="email"
+            name="newemail"
+            value={newEmail}
+            onChange={handleNewEmailChange}
             className="form-control"
           />
         </div>
