@@ -9,7 +9,7 @@ const EditContactOffCanvas = ({ show, onHide, contact, onSave }) => {
 
   useEffect(() => {
     if (contact) {
-      setFields(contact);
+      setFields(contact.messageResponse);
     }
   }, [contact]);
 
@@ -31,8 +31,13 @@ const EditContactOffCanvas = ({ show, onHide, contact, onSave }) => {
   };
 
   const handleSave = async () => {
+    console.log('contact : ', contact)
+    console.log('fields : ', fields)
+    const payload = { 
+      messageResponse : { ...fields }
+    }
     try {
-      const response = await axios.put(`http://192.168.29.20:9090/phone/${contact.id}`, fields, {
+      const response = await axios.post(`http://192.168.29.20:9090/phone/message-response/${contact.phoneNumber}`, payload, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -43,6 +48,9 @@ const EditContactOffCanvas = ({ show, onHide, contact, onSave }) => {
     }
   };
 
+  console.log("test")
+  console.log(fields)
+
   return (
     <Offcanvas show={show} onHide={onHide} placement="end">
       <Offcanvas.Header closeButton>
@@ -52,8 +60,8 @@ const EditContactOffCanvas = ({ show, onHide, contact, onSave }) => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Key</th>
-              <th>Value</th>
+              <th>Inbound</th>
+              <th>Outbound</th>
               <th>Action</th>
             </tr>
           </thead>

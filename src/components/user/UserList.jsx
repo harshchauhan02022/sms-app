@@ -6,7 +6,6 @@ import UserPopup from '../Popup/UserPopup';
 import AssignNumberPopup from '../assign/AssignNumberPopup';
 
 function UserList() {
-    const [showModal, setShowModal] = useState({ show: false, userId: null });
     const [userData, setUserData] = useState([]);
     const [isAdmin] = useState(true);
     const token = localStorage.getItem('token');
@@ -18,7 +17,7 @@ function UserList() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://192.168.29.20:9090/user', {
+                const response = await axios.get('http://192.168.29.20:9090/user/all', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -68,15 +67,10 @@ function UserList() {
         }
     };
 
-    const handleEditClick = (userId) => {
-        setShowModal({ show: true, userId });
-    };
-
     const handleSave = (updatedUser) => {
         if (updatedUser) {
             setUserData(userData.map(user => user.id === updatedUser.id ? updatedUser : user));
         }
-        setShowModal({ show: false, userId: null });
     };
 
     return (
@@ -87,7 +81,7 @@ function UserList() {
                     <UserPopup />
                 )}
             </div>
-            <div className="table-responsive">
+            <div className="table-responsive height-set">
                 <table className="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -115,11 +109,7 @@ function UserList() {
                                     <td className="d-flex justify-content-between">
                                         <AssignNumberPopup />
 
-                                        <EditPopup
-                                            show={showModal.show}
-                                            userId={showModal.userId}
-                                            handleSave={handleSave}
-                                        />
+                                        <EditPopup user={user} handleSave={handleSave} />
 
                                         <button
                                             className="btn btn-danger btn-sm ml-2"
@@ -139,26 +129,28 @@ function UserList() {
                 </table>
             </div>
 
-            {/* Pagination with Bootstrap icons */}
-            <div className="d-flex justify-content-center mt-2">
-                <button
-                    className="btn btn-secondary mr-4"
-                    onClick={handlePrevPage}
-                    disabled={currentPage === 1}
-                >
-                    &#60;
-                </button>
-                <span>
-                    Page {currentPage} of {totalPages}
-                </span>
-                <button
-                    className="btn btn-secondary ml-3"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                >
-                    &#62;
-                </button>
-            </div>
+            {/* Show pagination only if there is more data than can fit on one page */}
+            {userData.length > userDataPerPage && (
+                <div className="d-flex justify-content-center mt-2">
+                    <button
+                        className="btn btn-secondary mr-4 me-4"
+                        onClick={handlePrevPage}
+                        disabled={currentPage === 1}
+                    >
+                        &#60;
+                    </button>
+                    <span>
+                        Page {currentPage} of {totalPages}
+                    </span>
+                    <button
+                        className="btn btn-secondary ml-3 ms-4"
+                        onClick={handleNextPage}
+                        disabled={currentPage === totalPages}
+                    >
+                        &#62;
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

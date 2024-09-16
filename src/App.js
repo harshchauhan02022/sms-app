@@ -23,7 +23,7 @@ function App() {
         </Route>
         <Route path='signup' element={<Signup />} />
         <Route path='*' element={<Notfound />} />
-        <Route path='/' element={<Pages />} />
+        <Route path='/' element={<Login />} />
         <Route path='AdminSms' element={<AdminSms />} />
         <Route path='AdminSettings' element={<AdminSettings />} />
       </Routes>
