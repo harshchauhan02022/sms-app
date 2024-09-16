@@ -1,0 +1,17 @@
+@import "../../../../index.scss";
+
+.Create-button {
+ padding: 8px 12px;
+ border-radius: 12px;
+ 
+
+ &:hover {
+  background-color: rgba($color: $secondary, $alpha: 0.4);
+ }
+
+ &.active {
+  background-color: rgba($color: $secondary, $alpha: 0.4);
+
+ }
+
+}

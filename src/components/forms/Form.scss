@@ -1,0 +1,32 @@
+@import "../../index.scss";
+
+.form {
+    padding: 15px;
+    border-radius: 10px;
+    background-color: $light;
+
+    .inputField {
+        margin: 10px 0;
+
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+    }
+}
+
+.Create-button {
+    height: 47px;
+    background-color: rgba(138, 236, 213, 0.372);
+    color: #000;
+
+    &:hover {
+        background-color: rgba($color: $secondary, $alpha: 0.4);
+        color: blue;
+    }
+
+    &.active {
+        background-color: rgba($color: $secondary, $alpha: 0.4);
+
+    }
+}
