@@ -6,7 +6,7 @@ import "react-phone-input-2/lib/style.css";
 import { useForm } from "react-hook-form";
 
 const EditUser = ({ user, handleSave }) => {
-  const [formData, setFormData] = useState({
+  const [formData] = useState({
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
     email: user?.email || "",
@@ -54,7 +54,7 @@ const EditUser = ({ user, handleSave }) => {
     } catch (error) {
       if (error.response) {
         console.error("Error response data:", error.response.data);
-        alert(
+        toast.error(
           `Error: ${
             error.response.data?.message ||
             "Failed to update user. Please check the details."

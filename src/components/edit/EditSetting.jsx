@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const EditSetting = ({ user, id, handleSave }) => {
   const [Email, setEmail] = useState(''); // Current Email
@@ -40,11 +41,11 @@ const EditSetting = ({ user, id, handleSave }) => {
           },
         }
       );
-      alert('Email updated successfully!');
+      toast.success('Email updated successfully!');
       handleSave(newEmail); // Call handleSave with the updated email
     } catch (error) {
       console.error('Error updating email:', error);
-      alert('Failed to update email.');
+      toast.error('Failed to update email.');
     }
   };
 

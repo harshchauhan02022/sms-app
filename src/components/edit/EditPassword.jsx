@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const EditPassword = ({ user, Id, handleSave }) => {
   const [formData, setFormData] = useState({
@@ -35,7 +36,7 @@ const EditPassword = ({ user, Id, handleSave }) => {
             },
           }
         );
-        alert("Admin password updated successfully!");
+        toast.success("Admin password updated successfully!");
       } else {
         // User will update old password and new password
         await axios.put(
@@ -51,12 +52,12 @@ const EditPassword = ({ user, Id, handleSave }) => {
             },
           }
         );
-        alert("User password updated successfully!");
+        toast.success("User password updated successfully!");
       }
       handleSave(formData); // Reflect changes in the parent component
     } catch (error) {
       console.error("Error updating password:", error);
-      alert("Failed to update password.");
+      toast.error("Failed to update password.");
     }
   };
 

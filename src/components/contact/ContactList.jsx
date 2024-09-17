@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ContactPopup from "../Popup/ContactPopup";
 import EditContactOffCanvas from "../canvas/EditContactOffCanvas";
+import { toast } from "react-toastify";
 
 const ContactList = () => {
  const [contacts, setContacts] = useState([]);
@@ -52,10 +53,10 @@ const ContactList = () => {
    });
    // Update the UI by removing the deleted contact
    setContacts(contacts.filter((contact) => contact.id !== contactId));
-   alert("Contact deleted successfully");
+   toast.success("Contact deleted successfully");
   } catch (error) {
    console.error("Error deleting contact:", error);
-   alert("Failed to delete contact");
+   toast.error("Failed to delete contact");
   }
  };
 

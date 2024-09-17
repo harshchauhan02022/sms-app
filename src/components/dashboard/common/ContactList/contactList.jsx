@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react"
-import axios from "axios"
-import "./ContactList.scss"
-import ContactPopup from "../../../Popup/ContactPopup"
-import EditContactOffCanvas from "../../../canvas/EditContactOffCanvas"
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./ContactList.scss";
+import ContactPopup from "../../../Popup/ContactPopup";
+import EditContactOffCanvas from "../../../canvas/EditContactOffCanvas";
+import { toast } from "react-toastify";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const ContactList = () => {
-  const [contacts, setContacts] = useState([])
-  const [isAdmin] = useState(true)
-  const token = localStorage.getItem("token")
+  const [contacts, setContacts] = useState([]);
+  const [isAdmin] = useState(true);
+  const token = localStorage.getItem("token");
 
-  const [showOffCanvas, setShowOffCanvas] = useState(false)
-  const [selectedContact, setSelectedContact] = useState(null)
+  const [showOffCanvas, setShowOffCanvas] = useState(false);
+  const [selectedContact, setSelectedContact] = useState(null);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -22,39 +25,66 @@ const ContactList = () => {
               Authorization: `Bearer ${token}`,
             },
           }
-        )
-        console.log(response.data)
-        setContacts(response.data)
+        );
+        setContacts(response.data);
       } catch (error) {
-        console.error("Error fetching contacts:", error)
+        console.error("Error fetching contacts:", error);
       }
-    }
+    };
 
-    fetchContacts()
-  }, [token])
+    fetchContacts();
+  }, [token]);
 
   // Function to handle deleting a contact
   const handleDelete = async (contactId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this contact?"
-    )
-    if (!confirmDelete) return
-
-    try {
-      // Send DELETE request with contact ID
-      await axios.delete(`http://192.168.29.20:9090/user/${contactId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      // Update the UI by removing the deleted contact
-      setContacts(contacts.filter((contact) => contact.id !== contactId))
-      alert("Contact deleted successfully")
-    } catch (error) {
-      console.error("Error deleting contact:", error)
-      alert("Failed to delete contact")
-    }
-  }
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className="custom-ui">
+            <h3>Delete Contact</h3>
+            <p className="text-secondary mb-3">
+              Are you sure you want to delete this contact?
+            </p>
+            <div className="gap-2 d-flex justify-content-end">
+              <button
+                className="btn btn-sm btn-danger px-3 text-center"
+                onClick={onClose}
+              >
+                No
+              </button>
+              <button
+                className="px-3 text-center btn btn-sm btn-success"
+                onClick={() => {
+                  try {
+                    // Send DELETE request with contact ID
+                    axios.delete(
+                      `http://192.168.29.20:9090/user/${contactId}`,
+                      {
+                        headers: {
+                          Authorization: `Bearer ${token}`,
+                        },
+                      }
+                    );
+                    // Update the UI by removing the deleted contact
+                    setContacts(
+                      contacts.filter((contact) => contact.id !== contactId)
+                    );
+                    toast.success("Contact deleted successfully");
+                  } catch (error) {
+                    console.error("Error deleting contact:", error);
+                    toast.error("Failed to delete contact");
+                  }
+                  onClose();
+                }}
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        );
+      },
+    });
+  };
   return (
     <div className="row">
       <div className="d-flex justify-content-between">
@@ -79,8 +109,8 @@ const ContactList = () => {
                       <button
                         className="btn btn-primary btn-sm ms-1"
                         onClick={() => {
-                          setSelectedContact(contact)
-                          setShowOffCanvas(true)
+                          setSelectedContact(contact);
+                          setShowOffCanvas(true);
                         }}
                       >
                         Edit
@@ -114,12 +144,12 @@ const ContactList = () => {
             contacts.map((c) =>
               c.id === updatedContact.id ? updatedContact : c
             )
-          )
-          setShowOffCanvas(false)
+          );
+          setShowOffCanvas(false);
         }}
       />
     </div>
-  )
-}
+  );
+};
 
-export default ContactList
+export default ContactList;

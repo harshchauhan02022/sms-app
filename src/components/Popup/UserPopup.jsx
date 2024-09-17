@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './Popup.scss';
 import { Modal, Button } from 'react-bootstrap';
 import CreateUser from '../user/CreateUser';

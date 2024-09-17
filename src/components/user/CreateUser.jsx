@@ -69,7 +69,7 @@ const CreateUser = ({ onSuccess }) => {
     } = data;
 
     try {
-      const response = await axios.post(
+       await axios.post(
         "http://192.168.29.20:9090/user",
         {
           firstName,

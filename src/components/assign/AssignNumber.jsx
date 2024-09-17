@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import {toast} from 'react-toastify'
 const AssignNumber = ({ user, availableNumbers, handleSave }) => {
  const [selectedNumber, setSelectedNumber] = useState('');
 
@@ -10,7 +10,7 @@ const AssignNumber = ({ user, availableNumbers, handleSave }) => {
 
  const handleAssignNumber = async () => {
   if (!selectedNumber) {
-   alert('Please select a phone number before assigning.');
+    toast.success('Please select a phone number before assigning.');
    return;
   }
 
@@ -36,10 +36,10 @@ const AssignNumber = ({ user, availableNumbers, handleSave }) => {
 
    // Trigger the handleSave function with updated user data
    handleSave({ ...user, phoneNumber: selectedNumber });
-   alert('Phone number assigned successfully!');
+   toast.success('Phone number assigned successfully!');
   } catch (error) {
    console.error('Error assigning number:', error);
-   alert('Failed to assign the phone number.');
+   toast.error('Failed to assign the phone number.');
   }
  };
 
