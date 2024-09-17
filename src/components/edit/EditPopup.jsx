@@ -1,27 +1,19 @@
 import React, { useState } from 'react';
-import './Edit.scss';
 import { Modal, Button } from 'react-bootstrap';
 import EditUser from './EditUser';
 
-const EditPopup = ({ user }) => {
+const EditPopup = ({ user, handleSave }) => {
  const [showModal, setShowModal] = useState(false);
- const [selectedUser, setSelectedUser] = useState(user);
-
- const [userData, setUserData] = useState({
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'john.doe@example.com',
-  telephone: '1234567890',
-  status: 'Active'
- });
 
  const handleShowModal = () => setShowModal(true);
  const handleCloseModal = () => setShowModal(false);
 
- const handleSave = (updatedUser) => {
-  console.log('Updated User:', updatedUser);
-  setSelectedUser(updatedUser);
-  handleCloseModal();
+ // This will handle the saving action and update the user list
+ const handleSaveUser = (updatedUser) => {
+  if (updatedUser) {
+   handleSave(updatedUser); // Propagate the updated user data to parent
+  }
+  handleCloseModal(); // Close the modal after saving
  };
 
  return (
@@ -35,7 +27,7 @@ const EditPopup = ({ user }) => {
      <Modal.Title>Edit User</Modal.Title>
     </Modal.Header>
     <Modal.Body>
-     <EditUser user={userData} handleSave={handleSave} />
+     <EditUser user={user} handleSave={handleSaveUser} />
     </Modal.Body>
    </Modal>
   </div>

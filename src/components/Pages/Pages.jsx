@@ -8,9 +8,9 @@ const Pages = () => {
   <button className="btn btn-main">
    <Link to='/login'>Home</Link>
   </button>
-  <button className="btn btn-main">
+  {/* <button className="btn btn-main">
    <Link to='/messages'>SMS</Link>
-  </button>
+  </button> */}
   <button className="btn btn-main">
    <Link to='/settings'>Settings</Link>
   </button>

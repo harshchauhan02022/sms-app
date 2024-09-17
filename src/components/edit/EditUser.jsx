@@ -3,11 +3,12 @@ import axios from 'axios';
 
 const EditUser = ({ user, handleSave }) => {
  const [formData, setFormData] = useState({
-  firstName: user.firstName,
-  lastName: user.lastName,
-  email: user.email,
-  telephone: user.telephone,
-  status: user.status,
+  firstName: user?.firstName || '',
+  lastName: user?.lastName || '',
+  email: user?.email || '',
+  telephone: user?.telephone || '',
+  status: user?.status || '',
+  id: user?.id || '',
  });
 
  const token = localStorage.getItem('token');
@@ -21,31 +22,47 @@ const EditUser = ({ user, handleSave }) => {
 
  const handleUpdateUser = async () => {
   try {
-   await axios.put(`http://192.168.29.20:9090/user/${user.id}`, formData, {
-    headers: {
-     Authorization: `Bearer ${token}`,
-    },
-   });
-   alert('User updated successfully!');
-   handleSave(formData); // Call handleSave with updated user data to update in the parent
+   // Sending PUT request to update the user
+   const response = await axios.put(
+    `http://192.168.29.20:9090/user/edit`,
+    formData,
+    {
+     headers: {
+      Authorization: `Bearer ${token}`,
+     },
+    }
+   );
+
+   // Check if the request was successful and return the updated user
+   if (response.status === 200) {
+    alert('User updated successfully!');
+    handleSave(response.data); // This will trigger the parent update
+   } else {
+    alert('Failed to update user. Please try again.');
+   }
   } catch (error) {
-   console.error('Error updating user:', error);
+   // Log full error response to get more details
+   if (error.response) {
+    // The request was made, and the server responded with a status code outside of the 2xx range
+    console.error('Error response data:', error.response.data);
+    console.error('Error response status:', error.response.status);
+    console.error('Error response headers:', error.response.headers);
+    alert(`Error: ${error.response.data?.message || 'Failed to update user. Please check the details.'}`);
+   } else if (error.request) {
+    // The request was made but no response was received
+    console.error('Error request data:', error.request);
+    alert('No response from server. Please try again later.');
+   } else {
+    // Something happened in setting up the request
+    console.error('Error setting up request:', error.message);
+    alert('Error setting up the request. Please check your code.');
+   }
   }
  };
 
  return (
   <form className="form">
    <div className="row">
-    {/* {successMessage && (
-     <div className="text-center mt-3">
-      <p className="text-success">{successMessage}</p>
-     </div>
-    )}
-    {errorMessage && (
-     <div className="text-center mt-3">
-      <p className="text-danger">{errorMessage}</p>
-     </div>
-    )} */}
     <div className="col-md-6">
      <label>First Name</label>
      <input
@@ -96,27 +113,15 @@ const EditUser = ({ user, handleSave }) => {
       className="form-control"
      />
     </div>
-    <div className="col-12 mt-4">
-     <div className="d-flex justify-content-between">
-      <button
-       type="button"
-       className="btn btn-primary"
-       onClick={handleUpdateUser}
-      >
-       Update User
-      </button>
-      <button
-       type="button"
-       className="btn btn-dark ml-2"
-       onClick={() => handleSave(null)}
-      >
-       Cancel
-      </button>
-     </div>
-    </div>
    </div>
+   <button
+    type="button"
+    className="btn btn-primary mt-4"
+    onClick={handleUpdateUser}
+   >
+    Save Changes
+   </button>
   </form>
-
  );
 };
 

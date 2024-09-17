@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Login.scss";
 import auth from "../../../assets/images/auth.jpg";
-import logo from "../../../assets/images/logo.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { showToast } from "../../utils/toastUtils"; // Import showToast
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -30,9 +30,12 @@ function Login() {
             const response = await axios.post("http://192.168.29.20:9090/admin/log-in", { email, password });
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("userEmail", email);
+            localStorage.setItem("role", response.data.role_TYPE[0].authority);
+            showToast("Logged in successfully!", "success"); // Show success toast
             navigate("/dashboard");
         } catch (error) {
             console.error("Login error", error);
+            showToast("Error logging in! Please check your credentials.", "error"); // Show error toast
         }
     };
 
@@ -42,10 +45,9 @@ function Login() {
                 <div className="row">
                     <div className="col-md-6 centerMid">
                         <div>
-                            <div className="mb-5">
-                                <img src={logo} alt="Logo" className="logo" />
+                            <div className="text-center mb-5">
+                                <h1>Welcome</h1>
                             </div>
-                            <h1>Welcome</h1>
                             <form onSubmit={handleSubmit} className="authForm">
                                 <div className="row">
                                     <div className="col-12">
@@ -89,7 +91,8 @@ function Login() {
                                     </div>
                                     <div className="col-12 mb-3">
                                         <button type="submit" className="btn btn-main" disabled={isButtonDisabled}>
-                                            Login                                        </button>
+                                            Login
+                                        </button>
                                     </div>
                                     <div className="col-12">
                                         <p>

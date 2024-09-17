@@ -9,32 +9,50 @@ const AssignNumber = ({ user, availableNumbers, handleSave }) => {
  };
 
  const handleAssignNumber = async () => {
+  if (!selectedNumber) {
+   alert('Please select a phone number before assigning.');
+   return;
+  }
+
   try {
    const token = localStorage.getItem('token');
-   await axios.put(`http://192.168.29.20:9090/user/${user.id}/assignNumber`, 
-    { phoneNumber: selectedNumber },
+
+   // Payload structure for the API
+   const payload = {
+    phoneNumber: selectedNumber, // The selected phone number
+    customerId: user?.id ? user?.id : null,         // User ID for customer assignment
+   };
+
+   // Send the PUT request to assign the phone number
+   await axios.post(
+    'http://192.168.29.20:9090/phone/assign-customer',
+    payload,
     {
      headers: {
       Authorization: `Bearer ${token}`,
      },
     }
    );
+
+   // Trigger the handleSave function with updated user data
    handleSave({ ...user, phoneNumber: selectedNumber });
+   alert('Phone number assigned successfully!');
   } catch (error) {
    console.error('Error assigning number:', error);
+   alert('Failed to assign the phone number.');
   }
  };
 
  return (
   <form className="form">
    <div className="row">
-    <div className="col-12 mt-3">
+    <div className="col-8 mt-2">
      <label>Select Phone Number</label>
      <select
       name="phoneNumber"
       value={selectedNumber}
       onChange={handleInputChange}
-      className="form-control"
+      className="form-control center"
      >
       <option value="">Select a number</option>
       {availableNumbers.map((number) => (
@@ -50,7 +68,7 @@ const AssignNumber = ({ user, availableNumbers, handleSave }) => {
        type="button"
        className="btn btn-primary"
        onClick={handleAssignNumber}
-       disabled={!selectedNumber}
+       disabled={!selectedNumber} // Disable button if no number is selected
       >
        Assign Number
       </button>

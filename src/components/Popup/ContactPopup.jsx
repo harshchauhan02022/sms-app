@@ -7,12 +7,15 @@ const ContactPopup = () => {
  const [showModal, setShowModal] = useState(false);
  const handleShowModal = () => setShowModal(true);
  const handleCloseModal = () => setShowModal(false);
+ const role = localStorage.getItem("role");
 
  return (
   <div>
+     {role=="ROLE_ADMIN" ? (
    <Button className="Create-button" onClick={handleShowModal}>
     Create No
    </Button>
+     ): ""}
    <Modal show={showModal} onHide={handleCloseModal}>
     <Modal.Header closeButton>
      <Modal.Title>Create New Contact</Modal.Title>

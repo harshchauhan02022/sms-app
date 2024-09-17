@@ -5,10 +5,11 @@ import CreateUser from '../user/CreateUser';
 
 const UserPopup = () => {
  const [showModal, setShowModal] = useState(false);
+
  const handleShowModal = () => setShowModal(true);
  const handleCloseModal = () => setShowModal(false);
 
- return ( 
+ return (
   <div>
    <Button className="Create-button mb-3" onClick={handleShowModal}>
     Create User
@@ -18,7 +19,7 @@ const UserPopup = () => {
      <Modal.Title>Add New User</Modal.Title>
     </Modal.Header>
     <Modal.Body>
-     <CreateUser />
+     <CreateUser onSuccess={handleCloseModal} />
     </Modal.Body>
    </Modal>
   </div>
