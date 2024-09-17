@@ -45,13 +45,13 @@ const Header = ({ toggle, userEmail, logout }) => {
                                 <img src={Profile} alt="Profile" />
                             </div>
                             <div className="name">
-                                <p className="userEmail">{userEmail}</p>
+                                <p className="userEmail mb-0">{userEmail}</p>
                             </div>
                         </div>
                     </div>
                     <ul className="dropdown-menu mt-2 shadow" aria-labelledby="dropdownMenuButton1">
                         <li><NavLink className="dropdown-item" to="profile">Profile</NavLink></li>
-                        <li><NavLink className="dropdown-item" to="/">Settings</NavLink></li>
+                        <li><NavLink className="dropdown-item" to="/AdminSettings">Settings</NavLink></li>
                         <li><NavLink className="dropdown-item" onClick={handleLogout} to="/">Logout</NavLink></li>
                     </ul>
                 </div>
