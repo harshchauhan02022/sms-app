@@ -14,7 +14,7 @@ const Header = ({ toggle, userEmail, logout }) => {
     };
 
     return (
-        <header className="justify-content-md-end">
+        <header className="d-flex justify-content-lg-end justify-content-md-between align-items-center">
             <div className="toggle d-xl-none d-block" onClick={toggle}>
                 <CiMenuBurger />
             </div>

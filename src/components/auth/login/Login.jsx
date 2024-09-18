@@ -3,7 +3,7 @@ import "./Login.scss";
 import auth from "../../../assets/images/auth.jpg";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { showToast } from "../../utils/toastUtils"; // Import showToast
+import { toast } from 'react-toastify'
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -31,11 +31,11 @@ function Login() {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("userEmail", email);
             localStorage.setItem("role", response.data.role_TYPE[0].authority);
-            showToast("Logged in successfully!", "success"); // Show success toast
+            toast.success("Logged in successfully!"); // Show success toast
             navigate("/dashboard");
         } catch (error) {
             console.error("Login error", error);
-            showToast("Error logging in! Please check your credentials.", "error"); // Show error toast
+            toast.error("Error logging in! Please check your credentials."); // Show error toast
         }
     };
 

@@ -21,6 +21,30 @@ $border: #E2E8F0;
 $danger: #E53E3E;
 $success: #38A169;
 
+//commpn Mixins
+
+@mixin itemPosition($align, $justify) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+}
+
+@mixin roundShape($width, $bgColor) {
+  @include itemPosition(center, center);
+  width: $width;
+  height: $width;
+  border-radius: 50%;
+  background-color: $bgColor;
+}
+
+@mixin squareShape($width, $height, $bgColor, $radius) {
+  @include itemPosition(center, center);
+  width: $width;
+  height: $height;
+  border-radius: $radius;
+  background-color: $bgColor;
+}
+
 
 body {
   font-family: "Roboto", sans-serif !important;
@@ -66,29 +90,7 @@ body {
   }
 }
 
-//commpn Mixins
 
-@mixin itemPosition($align, $justify) {
-  display: flex;
-  align-items: $align;
-  justify-content: $justify;
-}
-
-@mixin roundShape($width, $bgColor) {
-  @include itemPosition(center, center);
-  width: $width;
-  height: $width;
-  border-radius: 50%;
-  background-color: $bgColor;
-}
-
-@mixin squareShape($width, $height, $bgColor, $radius) {
-  @include itemPosition(center, center);
-  width: $width;
-  height: $height;
-  border-radius: $radius;
-  background-color: $bgColor;
-}
 
 // Custom Scroll 
 /* width */
