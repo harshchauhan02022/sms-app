@@ -4,9 +4,10 @@ import axios from "axios";
 import moment from 'moment';
 
 const MainChatTwo = () => {
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState({});  // Initialize as an empty object
   const [toggleChat, setToggleChat] = useState(false);
-  const [selectedUser, setSelectedUser] = useState();
+  const [selectedUser, setSelectedUser] = useState(null);  // Set initial selectedUser to null
+  const [loading, setLoading] = useState(true); // Add loading state
 
   const handleUserSelect = (key, user) => {
     setSelectedUser({
@@ -25,12 +26,15 @@ const MainChatTwo = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+
         let newUsers = formatConversations(response.data);
         let firstKey = Object.keys(newUsers)[0];
-        setSelectedUser({ key: firstKey, user: newUsers[firstKey] });
+        setSelectedUser(firstKey ? { key: firstKey, user: newUsers[firstKey] } : null);
         setUsers(newUsers);
+        setLoading(false); // Set loading to false once data is fetched
       } catch (error) {
         console.error("Error fetching available numbers:", error);
+        setLoading(false); // In case of an error, stop showing the loading message
       }
     };
 
@@ -44,11 +48,9 @@ const MainChatTwo = () => {
       const fromNumber = message.from.endpoint;
       const toNumber = message.to;
 
-      // Determine message direction
       const messageType =
         message.direction === "OUTBOUND_API" ? "OUTBOUND" : "INBOUND";
 
-      // Determine the key for this conversation
       let conversationKey = fromNumber;
       let conversationWith = toNumber;
       if (message.direction === "INBOUND") {
@@ -56,7 +58,6 @@ const MainChatTwo = () => {
         conversationWith = fromNumber;
       }
 
-      // Initialize conversation if it doesn't exist
       if (!conversations[conversationKey]) {
         conversations[conversationKey] = {
           conversationWith,
@@ -64,19 +65,26 @@ const MainChatTwo = () => {
         };
       }
 
-      // Add the message to the conversation
       conversations[conversationKey].messages.push({
         type: messageType,
         text: message.body,
-        time: moment(message.dateSent).format('HH:MM:A MM/DD/YYYY'),
+        time: moment(message.dateSent).format('HH:mm A MM/DD/YYYY'), // Corrected format to 'HH:mm A'
       });
     });
     return conversations;
   }
 
-  if (users === null || users === undefined) {
-    return <div>LOADING</div>;
+  // Conditionally render loading state
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner-border text-primary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
   }
+
   return (
     <div className="row">
       <div className="col-12">
@@ -91,9 +99,7 @@ const MainChatTwo = () => {
               {Object.entries(users).map(([key, user]) => (
                 <div
                   key={key}
-                  className={`chatContact ${
-                    key === selectedUser.key ? "active" : ""
-                  }`}
+                  className={`chatContact ${key === (selectedUser?.key || "") ? "active" : ""}`}
                   onClick={() => handleUserSelect(key, user)}
                 >
                   <div className="spcBetween">
@@ -102,13 +108,8 @@ const MainChatTwo = () => {
                         <h4 className="mb-0 fxxsm" style={{ fontSize: 16 }}>
                           {key}
                         </h4>
-                        {/* <p className="mb-0 fxs">{user.lastMessage}</p> */}
                       </div>
                     </div>
-                    {/* Conditionally render the message count badge and dot */}
-                    {/* {user.unreadMessages > 0 && (
-                      <div className="messageCount">{user.unreadMessages}</div>
-                    )} */}
                   </div>
                 </div>
               ))}
@@ -127,27 +128,19 @@ const MainChatTwo = () => {
                         <i className="fa-solid fa-mobile-screen-button"></i>
                       </div>
                       <div className="profileBox medium">
-                        {/* <img src="../../../../../assets/img/profile.png" alt={`${selectedUser.name}`} /> */}
+                        {/* Profile Picture Placeholder */}
                       </div>
                       <div className="text">
                         <h4 className="mb-0 fxsm">
-                          {selectedUser.user.conversationWith}
+                          {selectedUser?.user?.conversationWith || "Select a user"}
                         </h4>
                       </div>
                     </div>
-                    {/* <div className="callBox">
-                      <div className="calloption">
-                        <i className="fa-solid fa-video"></i>
-                      </div>
-                      <div className="calloption">
-                        <i className="fa-solid fa-phone"></i>
-                      </div>
-                    </div> */}
                   </div>
                 </div>
                 <div className="conversation">
                   {/* Messages */}
-                  {selectedUser.user.messages.map((message, index) => (
+                  {selectedUser?.user?.messages?.map((message, index) => (
                     <div
                       key={index}
                       className={
@@ -156,28 +149,13 @@ const MainChatTwo = () => {
                           : "sendedMessage"
                       }
                     >
-                      <div className="textMessage">{message.text}</div>
-                      <p className="mb-0 mt-1 fxs">{message.time}</p>
+                      <div className="textMessage All-messages">
+                        {message.text}
+                      </div>
+                      <p className="mb-0 mt-1 fxs All-time">{message.time}</p>
                     </div>
                   ))}
                 </div>
-
-                {/* Footer */}
-                {/* <div className="chatFooter">
-                  <div className="typeBox">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Write a message..."
-                    />
-                    <div className="pin">
-                      <i className="fa-solid fa-paperclip"></i>
-                    </div>
-                    <div className="send">
-                      <i className="fa-solid fa-paper-plane"></i>
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>

@@ -35,7 +35,7 @@ function DashboardPanel() {
       <Header toggle={toggleSidebar} userEmail={userEmail} logout={logout} />
       <div className="dashboardContent p-2 mt-4">
         <div className="row">
-            {role == "ROLE_ADMIN" ? (
+            {role === "ROLE_ADMIN" ? (
               <>
                 <div className="col-md-9">
                   <UserList />

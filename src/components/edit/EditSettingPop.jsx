@@ -5,13 +5,9 @@ import EditSetting from './EditSetting';
 
 const EditSettingPop = ({ user }) => {
  const [showModal, setShowModal] = useState(false);
- const [selectedUser, setSelectedUser] = useState(user);
 
- const [userData, setUserData] = useState({
- 
+ const [userData] = useState({
   email: 'john.doe@example.com',
-
-  
  });
 
  const handleShowModal = () => setShowModal(true);
@@ -19,8 +15,7 @@ const EditSettingPop = ({ user }) => {
 
  const handleSave = (updatedUser) => {
   console.log('Updated Setting:', updatedUser);
-  setSelectedUser(updatedUser);
-  handleCloseModal();
+  handleCloseModal(); // Close the modal after saving
  };
 
  return (

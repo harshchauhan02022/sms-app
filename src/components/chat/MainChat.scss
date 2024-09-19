@@ -4,10 +4,12 @@
   border: 1px solid rgba($color: $dark, $alpha: 0.15);
   border-radius: 15px;
   overflow: hidden;
+
   .chatBox {
     width: 100%;
     height: calc(100vh - 120px);
     position: relative;
+
     .chatlist {
       width: 366px;
       border-right: 1px solid rgba($color: $dark, $alpha: 0.15);
@@ -18,14 +20,18 @@
       left: 0;
       overflow-y: auto;
       background-color: $light;
+
       .chatContact {
         &:last-child {
           border-bottom: none;
         }
+
         border-bottom: 1px solid rgba($color: $dark, $alpha: 0.15);
         padding: 20px;
+
         .profileBox {
           position: relative;
+
           i {
             position: absolute;
             bottom: 0;
@@ -40,6 +46,7 @@
           border-bottom: none;
           border-radius: 15px;
         }
+
         .messageCount {
           @include roundShape(18px, $primary);
           color: $light;
@@ -47,37 +54,46 @@
         }
       }
     }
+
     .converstionBox {
       width: calc(100% - 366px);
       margin-left: 366px;
       height: 100%;
+
       .realChat {
         height: 100%;
         @include itemPosition(flex-start, space-between);
         flex-direction: column;
+
         .conversationHeader {
           border-bottom: 1px solid rgba($color: $dark, $alpha: 0.15);
           height: 80px;
           padding: 15px;
           width: 100%;
+
           .callBox {
             @include itemPosition(center, flex-end);
             gap: 10px;
+
             .calloption {
               @include roundShape(50px, $light);
               border: 1px solid rgba($color: $primary, $alpha: 0.59);
+
               img {
                 width: 25px;
               }
+
               i {
                 color: $primary;
               }
 
               &:hover {
                 @include roundShape(50px, $primary);
+
                 img {
                   filter: brightness(0) invert(1);
                 }
+
                 i {
                   color: $light;
                 }
@@ -85,6 +101,7 @@
             }
           }
         }
+
         .conversation {
           flex: 1;
           padding: 15px;
@@ -93,25 +110,31 @@
           flex-direction: column-reverse;
           height: 100%;
           overflow-y: auto;
+
           .receivedMessage {
             width: fit-content;
             margin: 3px auto 3px 0;
+
             p {
               color: rgba($color: $dark, $alpha: 0.5);
             }
+
             .textMessage {
               padding: 15px;
               border-radius: 10px 10px 10px 0;
               background-color: rgba($color: $primary, $alpha: 0.1);
             }
           }
+
           .sendedMessage {
             margin: 3px 0 3px auto;
             width: fit-content;
             text-align: end;
+
             p {
               color: rgba($color: $dark, $alpha: 0.5);
             }
+
             .textMessage {
               padding: 15px;
               border-radius: 10px 10px 0 10px;
@@ -120,10 +143,12 @@
             }
           }
         }
+
         .chatFooter {
           padding: 0;
           border-top: 1px solid rgba($color: $dark, $alpha: 0.15);
           width: 100%;
+
           .typeBox {
             height: 76px;
             background-color: $light;
@@ -131,17 +156,20 @@
             gap: 10px;
             border-radius: 10px;
             padding: 0 15px;
+
             input {
               background-color: transparent;
               border: none;
               outline: none;
               flex: 1;
             }
+
             .pin {
               @include squareShape(56px, 56px, transparent, 10px);
               cursor: pointer;
               color: $primary;
             }
+
             .send {
               @include squareShape(56px, 56px, $primary, 10px);
               cursor: pointer;
@@ -153,42 +181,53 @@
     }
   }
 }
+
 .spcBetween {
   @include itemPosition(center, space-between);
   gap: 10px;
 }
+
 .flexStart {
   @include itemPosition(center, flex-start);
   gap: 10px;
 }
+
 @media only screen and (max-width: 1400px) {
   .shadowBox {
     .chatBox {
       .chatlist {
         width: 250px;
         padding: 15px;
+
         .chatContact {
           padding: 10px;
         }
       }
+
       .converstionBox {
         width: calc(100% - 250px);
         margin-left: 250px;
+
         .realChat {
           .conversationHeader {
             height: 80px;
             padding: 15px 20px;
+
             .callBox {
               .calloption {
                 @include roundShape(45px, $light);
+
                 img {
                   width: 20px;
                 }
+
                 i {
                   color: $primary;
                 }
+
                 &:hover {
                   @include roundShape(45px, $primary);
+
                   i {
                     color: $light;
                   }
@@ -196,32 +235,40 @@
               }
             }
           }
+
           .conversation {
             padding: 15px;
+
             .receivedMessage {
               .textMessage {
                 padding: 10px;
               }
             }
+
             .sendedMessage {
               .textMessage {
                 padding: 10px;
               }
             }
           }
+
           .chatFooter {
             padding: 0;
+
             .typeBox {
               height: 50px;
 
               .pin {
                 @include squareShape(35px, 35px, transparent, 10px);
+
                 img {
                   width: 20px;
                 }
               }
+
               .send {
                 @include squareShape(35px, 35px, $primary, 10px);
+
                 img {
                   width: 20px;
                 }
@@ -240,15 +287,19 @@
       width: 100%;
       height: calc(100vh - 120px);
       position: relative;
+
       .chatlist {
         transform: translateX(-366px);
+
         &.toggleChat {
           transform: translateX(0px);
         }
       }
+
       .converstionBox {
         width: 100%;
         margin-left: 0px;
+
         .realChat {
           .conversationHeader {
             .toggleIcon {
@@ -270,4 +321,36 @@
 
 .fxm {
   font-size: 16px;
+}
+
+.All-messages {
+  max-width: fit-content;
+  background-color: #f1f1f1;
+  padding: 8px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.All-time {
+  color: #555;
+  // background-color: #f3ededcd
+}
+
+// .loading-container {
+//   display: flex;
+//   justify-content: center;
+//   /* Center horizontally */
+//   align-items: center;
+//   height: 100vh;
+// }
+
+.loading-container {
+  display: flex;
+  justify-content: center; // Center the loader horizontally
+  margin-top: 20px; // Add some margin to space it from the top
+}
+
+.custom-spinner {
+  width: 50px; // Control the width of the spinner
+  height: 50px; // Control the height of the spinner
 }

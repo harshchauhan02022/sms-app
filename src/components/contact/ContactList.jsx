@@ -45,13 +45,11 @@ const ContactList = () => {
   if (!confirmDelete) return;
 
   try {
-   // Send DELETE request with contact ID
    await axios.delete(`http://192.168.29.20:9090/user/${contactId}`, {
     headers: {
      Authorization: `Bearer ${token}`,
     },
    });
-   // Update the UI by removing the deleted contact
    setContacts(contacts.filter((contact) => contact.id !== contactId));
    toast.success("Contact deleted successfully");
   } catch (error) {
@@ -85,7 +83,7 @@ const ContactList = () => {
     <h3>Contact List</h3>
     {isAdmin && <ContactPopup />}
    </div>
-   <div className="table-responsive mt-3 ">
+   <div className="table-responsive mt-3">
     <table className="table table-striped table-bordered">
      <thead>
       <tr>
@@ -128,32 +126,34 @@ const ContactList = () => {
     </table>
    </div>
 
-   {/* Pagination controls */}
-   <div className="d-flex justify-content-between mt-2">
-    <button
-     className="btn btn-secondary"
-     onClick={handlePrevPage}
-     disabled={currentPage === 1}
-    >
-     &#60;
-    </button>
-    <span>
-     Page {currentPage} of {totalPages}
-    </span>
-    <button
-     className="btn btn-secondary"
-     onClick={handleNextPage}
-     disabled={currentPage === totalPages}
-    >
-     &#62;
-    </button>
-   </div>
+   {/* Conditionally render pagination controls only if there are more than one page */}
+   {totalPages > 1 && (
+    <div className="d-flex justify-content-between mt-2">
+     <button
+      className="btn btn-secondary"
+      onClick={handlePrevPage}
+      disabled={currentPage === 1}
+     >
+      &#60;
+     </button>
+     <span>
+      Page {currentPage} of {totalPages}
+     </span>
+     <button
+      className="btn btn-secondary"
+      onClick={handleNextPage}
+      disabled={currentPage === totalPages}
+     >
+      &#62;
+     </button>
+    </div>
+   )}
+
    <EditContactOffCanvas
     show={showOffCanvas}
     onHide={() => setShowOffCanvas(false)}
     contact={selectedContact}
     onSave={(updatedContact) => {
-     // Update the contact in the contacts array
      setContacts(
       contacts.map((c) => (c.id === updatedContact.id ? updatedContact : c))
      );

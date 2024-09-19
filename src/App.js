@@ -7,7 +7,6 @@ import Login from "./components/auth/login/Login";
 import { Signup } from './components/auth/signup/Signup';
 import { Notfound } from './components/notfound/Notfound';
 import Form from './components/forms/Form';
-import Pages from './components/Pages/Pages';
 import AdminSms from './components/sms/AdminSms';
 import AdminSettings from './components/settings/AdminSettings';
 import UserLogin from './components/auth/login/UserLogin';

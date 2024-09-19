@@ -9,7 +9,7 @@ const AdminSettings = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const email = localStorage.getItem("userEmail");
   const [userEmail, setUserEmail] = useState(email);
-  const [password, setPassword] = useState("*******");
+  const [password] = useState("*******");
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
   const Id = localStorage.getItem("id");
@@ -18,7 +18,7 @@ const AdminSettings = () => {
     if (email) {
       setUserEmail(email);
     }
-  }, []);
+  }, [email]);
 
   const logout = () => {
     localStorage.removeItem("token");
