@@ -45,35 +45,41 @@ function UserList() {
         return (
           <div className="custom-ui">
             <h3>Delete User</h3>
-            <p className="text-secondary mb-3">Are you sure you want to delete this user?</p>
+            <p className="text-secondary mb-3">
+              Are you sure you want to delete this user?
+            </p>
             <div className="gap-2 d-flex justify-content-end">
-            <button className="btn btn-sm btn-danger px-3 text-center" onClick={onClose}>No</button>
-            <button
-            className="px-3 text-center btn btn-sm btn-success"
-              onClick={() => {
-                try {
-                  axios.delete(`http://192.168.29.20:9090/user/${userId}`, {
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                    },
-                  });
-                  setUserData(userData.filter((user) => user.id !== userId));
-                  toast.success("User deleted successfully");
-                  fetchData();
-                } catch (error) {
-                  console.error(
-                    "Error deleting user:",
-                    error.response ? error.response.data : error
-                  );
-                  toast.error("Failed to delete user");
-                }
-                onClose();
-              }}
-            >
-              Yes
-            </button>
+              <button
+                className="btn btn-sm btn-danger px-3 text-center"
+                onClick={onClose}
+              >
+                No
+              </button>
+              <button
+                className="px-3 text-center btn btn-sm btn-success"
+                onClick={() => {
+                  try {
+                    axios.delete(`http://192.168.29.20:9090/user/${userId}`, {
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                      },
+                    });
+                    setUserData(userData.filter((user) => user.id !== userId));
+                    toast.success("User deleted successfully");
+                    fetchData();
+                  } catch (error) {
+                    console.error(
+                      "Error deleting user:",
+                      error.response ? error.response.data : error
+                    );
+                    toast.error("Failed to delete user");
+                  }
+                  onClose();
+                }}
+              >
+                Yes
+              </button>
             </div>
-          
           </div>
         );
       },
@@ -81,15 +87,15 @@ function UserList() {
   };
 
   // Handle saving the updated user after editing
-//   const handleSave = (updatedUser) => {
-//     if (updatedUser) {
-//       setUserData((prevData) =>
-//         prevData.map((user) =>
-//           user.id === updatedUser.id ? updatedUser : user
-//         )
-//       );
-//     }
-//   };
+  //   const handleSave = (updatedUser) => {
+  //     if (updatedUser) {
+  //       setUserData((prevData) =>
+  //         prevData.map((user) =>
+  //           user.id === updatedUser.id ? updatedUser : user
+  //         )
+  //       );
+  //     }
+  //   };
 
   const handleSave = async (updatedUser) => {
     if (updatedUser) {
@@ -176,7 +182,13 @@ function UserList() {
               ))
             ) : userData.length === 0 ? (
               <tr>
-                <td colSpan="7">Loading...</td>
+                <td colSpan="7">
+                  <div className="loading-container mt-4 ms-2 mb-3">
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                </td>
               </tr>
             ) : (
               <tr>
@@ -197,7 +209,7 @@ function UserList() {
           >
             &#60;
           </button>
-          <span>
+          <span className="pagination-text">
             Page {currentPage} of {totalPages}
           </span>
           <button

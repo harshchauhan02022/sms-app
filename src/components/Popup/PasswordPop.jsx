@@ -4,7 +4,6 @@ import { Modal, Button } from 'react-bootstrap';
 import EditPassword from '../edit/EditPassword';
 
 const PasswordPop = ({ user, Id }) => {
-    console.log(Id);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -12,7 +11,6 @@ const PasswordPop = ({ user, Id }) => {
     const handleCloseModal = () => setShowModal(false);
 
     const handleSave = (updatedUser) => {
-        console.log('Updated Setting:', updatedUser);
         handleCloseModal(); // Close the modal after saving
     };
 

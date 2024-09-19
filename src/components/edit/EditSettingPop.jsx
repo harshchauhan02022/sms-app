@@ -14,7 +14,6 @@ const EditSettingPop = ({ user }) => {
  const handleCloseModal = () => setShowModal(false);
 
  const handleSave = (updatedUser) => {
-  console.log('Updated Setting:', updatedUser);
   handleCloseModal(); // Close the modal after saving
  };
 

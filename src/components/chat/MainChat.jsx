@@ -68,7 +68,7 @@ const MainChatTwo = () => {
       conversations[conversationKey].messages.push({
         type: messageType,
         text: message.body,
-        time: moment(message.dateSent).format('HH:mm A MM/DD/YYYY'), // Corrected format to 'HH:mm A'
+        time: moment(message.dateSent).format('DD/MMM/YYYY, hh:mmA'), // Corrected format to 'HH:mm A'
       });
     });
     return conversations;

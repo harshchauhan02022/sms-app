@@ -38,7 +38,6 @@ const AdminSettings = () => {
       <div className="dashboardContent p-2 mt-4">
         <div className="row">
           <div className="col-md-9">
-            {console.log(role)}
             {role === "ROLE_ADMIN" ? (
               <div>
                 <h1>Admin Setting</h1>

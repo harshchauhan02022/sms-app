@@ -45,7 +45,6 @@ const EditUser = ({ user, handleSave }) => {
 
       // Check if the request was successful and return the updated user
       if (response.status === 200) {
-        console.log("Updated user data:", response.data); 
         toast.success("User updated successfully!");
         handleSave(response.data); // Trigger parent update
       } else {

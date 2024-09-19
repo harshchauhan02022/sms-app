@@ -15,25 +15,25 @@ const ContactList = () => {
   const [showOffCanvas, setShowOffCanvas] = useState(false);
   const [selectedContact, setSelectedContact] = useState(null);
 
-  useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const response = await axios.get(
-          "http://192.168.29.20:9090/phone/getAvailableNumbers",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setContacts(response.data);
-      } catch (error) {
-        console.error("Error fetching contacts:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchContacts = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "http://192.168.29.20:9090/phone/getAvailableNumbers",
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+  //       setContacts(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching contacts:", error);
+  //     }
+  //   };
 
-    fetchContacts();
-  }, [token]);
+  //   fetchContacts();
+  // }, [token]);
 
   // Function to handle deleting a contact
   const handleDelete = async (contactId) => {

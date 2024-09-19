@@ -9,21 +9,23 @@ const AssignNumberPopup = ({ user }) => {
  const [selectedUser, setSelectedUser] = useState(user);
  const [availableNumbers, setAvailableNumbers] = useState([]);
 
- useEffect(() => {
-  const fetchAvailableNumbers = async () => {
-   try {
-    const token = localStorage.getItem("token");
-    const response = await axios.get('http://192.168.29.20:9090/phone/getAvailableNumbers', {
-     headers: {
-      Authorization: `Bearer ${token}`
-     }
-    });
-    setAvailableNumbers(response.data);
-   } catch (error) {
-    console.error('Error fetching available numbers:', error);
-   }
-  };
 
+ const fetchAvailableNumbers = async () => {
+    try {
+     const token = localStorage.getItem("token");
+     const response = await axios.get('http://192.168.29.20:9090/phone/getAvailableNumbers', {
+      headers: {
+       Authorization: `Bearer ${token}`
+      }
+     });
+     setAvailableNumbers(response.data);
+    } catch (error) {
+     console.error('Error fetching available numbers:', error);
+    }
+   };
+
+   
+ useEffect(() => {
   fetchAvailableNumbers();
  }, []);
 
@@ -31,7 +33,6 @@ const AssignNumberPopup = ({ user }) => {
  const handleCloseModal = () => setShowModal(false);
 
  const handleSave = (updatedUser) => {
-  console.log('Updated User:', updatedUser);
   setSelectedUser(updatedUser);
   handleCloseModal();
  };

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "./common/sidebar/Sidebar";
 import Header from "./common/header/Header";
 import "./DashboardPanel.scss";
-// import ContactList from "./common/ContactList/contactList";
 import ContactList from "../contact/ContactList";
 import UserList from "../user/UserList";
 
