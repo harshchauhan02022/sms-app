@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Offcanvas, Form, Button, Table } from 'react-bootstrap';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Offcanvas, Form, Button, Table } from "react-bootstrap";
+import axios from "axios";
 
 const EditContactOffCanvas = ({ show, onHide, contact, onSave }) => {
   const [fields, setFields] = useState({});
-  const [newField, setNewField] = useState({ key: '', value: '' });
+  const [newField, setNewField] = useState({ key: "", value: "" });
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (contact) {
+    if (contact && contact.messageResponse) {
       setFields(contact.messageResponse);
+    } else {
+      setFields({});
     }
   }, [contact]);
 
@@ -20,7 +22,7 @@ const EditContactOffCanvas = ({ show, onHide, contact, onSave }) => {
   const handleAddField = () => {
     if (newField.key) {
       setFields({ ...fields, [newField.key]: newField.value });
-      setNewField({ key: '', value: '' });
+      setNewField({ key: "", value: "" });
     }
   };
 
@@ -31,25 +33,24 @@ const EditContactOffCanvas = ({ show, onHide, contact, onSave }) => {
   };
 
   const handleSave = async () => {
-    console.log('contact : ', contact)
-    console.log('fields : ', fields)
-    const payload = { 
-      messageResponse : { ...fields }
-    }
+    const payload = {
+      messageResponse: { ...fields },
+    };
     try {
-      const response = await axios.post(`http://192.168.29.20:9090/phone/message-response/${contact.phoneNumber}`, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      const response = await axios.post(
+        `http://192.168.29.20:9090/phone/message-response/${contact.phoneNumber}`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
+      );
       onSave(response.data);
     } catch (error) {
-      console.error('Error updating contact:', error);
+      console.error("Error updating contact:", error);
     }
   };
-
-  console.log("test")
-  console.log(fields)
 
   return (
     <Offcanvas show={show} onHide={onHide} placement="end">
@@ -66,26 +67,39 @@ const EditContactOffCanvas = ({ show, onHide, contact, onSave }) => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(fields).map(([key, value]) => (
-              <tr key={key}>
-                <td>{key}</td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    value={value}
-                    onChange={(e) => handleChange(key, e.target.value)}
-                  />
-                </td>
-                <td>
-                  <Button variant="danger" size="sm" onClick={() => handleRemoveField(key)}>
-                    Remove
-                  </Button>
+            {Object.keys(fields).length === 0 ? (
+              <tr className="bg-white text-dark">
+                <td colSpan="7">
+                <p className="mt-3 text-center">No messages available</p>
                 </td>
               </tr>
-            ))}
+              
+            ) : (
+              Object.entries(fields).map(([key, value]) => (
+                <tr key={key}>
+                  <td>{key}</td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      value={value}
+                      onChange={(e) => handleChange(key, e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleRemoveField(key)}
+                    >
+                      Remove
+                    </Button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </Table>
-        
+
         <Form.Group className="mb-3">
           <Form.Label>New Field</Form.Label>
           <div className="d-flex mb-2">
@@ -93,20 +107,28 @@ const EditContactOffCanvas = ({ show, onHide, contact, onSave }) => {
               type="text"
               placeholder="Key"
               value={newField.key}
-              onChange={(e) => setNewField({ ...newField, key: e.target.value })}
+              onChange={(e) =>
+                setNewField({ ...newField, key: e.target.value })
+              }
             />
             <Form.Control
               type="text"
               placeholder="Value"
               value={newField.value}
-              onChange={(e) => setNewField({ ...newField, value: e.target.value })}
+              onChange={(e) =>
+                setNewField({ ...newField, value: e.target.value })
+              }
               className="ms-2"
             />
           </div>
-          <Button variant="secondary" onClick={handleAddField}>Add Field</Button>
+          <Button variant="secondary" onClick={handleAddField}>
+            Add Field
+          </Button>
         </Form.Group>
-        
-        <Button variant="primary" onClick={handleSave}>Save Changes</Button>
+
+        <Button variant="primary" onClick={handleSave}>
+          Save Changes
+        </Button>
       </Offcanvas.Body>
     </Offcanvas>
   );
