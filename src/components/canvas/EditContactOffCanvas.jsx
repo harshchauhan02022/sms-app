@@ -38,7 +38,7 @@ const EditContactOffCanvas = ({ show, onHide, contact, onSave }) => {
     };
     try {
       const response = await axios.post(
-        `http://192.168.29.20:9090/phone/message-response/${contact.phoneNumber}`,
+        `${process.env.REACT_APP_API_BASE_URL}/phone/message-response/${contact.phoneNumber}`,
         payload,
         {
           headers: {

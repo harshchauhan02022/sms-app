@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 const AssignNumber = ({ user, availableNumbers, handleSave }) => {
   const [selectedNumber, setSelectedNumber] = useState("");
 
@@ -25,7 +26,7 @@ const AssignNumber = ({ user, availableNumbers, handleSave }) => {
 
       // Send the PUT request to assign the phone number
       await axios.post(
-        "http://192.168.29.20:9090/phone/assign-customer",
+        `${process.env.REACT_APP_API_BASE_URL}/phone/assign-customer`,
         payload,
         {
           headers: {

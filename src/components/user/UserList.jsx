@@ -20,7 +20,7 @@ function UserList() {
   // Fetch user data
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://192.168.29.20:9090/user/all", {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -59,7 +59,7 @@ function UserList() {
                 className="px-3 text-center btn btn-sm btn-success"
                 onClick={() => {
                   try {
-                    axios.delete(`http://192.168.29.20:9090/user/${userId}`, {
+                    axios.delete(`${process.env.REACT_APP_API_BASE_URL}/user/${userId}`, {
                       headers: {
                         Authorization: `Bearer ${token}`,
                       },

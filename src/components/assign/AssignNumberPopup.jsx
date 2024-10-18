@@ -13,7 +13,7 @@ const AssignNumberPopup = ({ user }) => {
  const fetchAvailableNumbers = async () => {
     try {
      const token = localStorage.getItem("token");
-     const response = await axios.get('http://192.168.29.20:9090/phone/getAvailableNumbers', {
+     const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/phone/getAvailableNumbers`, {
       headers: {
        Authorization: `Bearer ${token}`
       }

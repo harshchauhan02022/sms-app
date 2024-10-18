@@ -24,7 +24,7 @@ const EditPassword = ({ user, Id, handleSave }) => {
       if (role === "ROLE_ADMIN") {
         // Admin will update email and password
         await axios.put(
-          `http://192.168.29.20:9090/admin/update-password`,
+          `${process.env.REACT_APP_API_BASE_URL}/admin/update-password`,
           {
             currentEmail: formData.currentEmail,
             newPassword: formData.newPassword,
@@ -40,7 +40,7 @@ const EditPassword = ({ user, Id, handleSave }) => {
       } else {
         // User will update old password and new password
         await axios.put(
-          `http://192.168.29.20:9090/user/change-password`,
+          `${process.env.REACT_APP_API_BASE_URL}/user/change-password`,
           {
             currentPassword: formData.currentPassword,
             newPassword: formData.newPassword,

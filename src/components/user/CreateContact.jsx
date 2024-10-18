@@ -16,7 +16,7 @@ const CreateContact = ({ onAddNewContact }) => {
 
     try {
       const response = await axios.post(
-        "http://192.168.29.20:9090/user",
+        `${process.env.REACT_APP_API_BASE_URL}/user`,
         newContact,
         {
           headers: {

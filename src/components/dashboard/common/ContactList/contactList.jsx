@@ -19,7 +19,7 @@ const ContactList = () => {
   //   const fetchContacts = async () => {
   //     try {
   //       const response = await axios.get(
-  //         "http://192.168.29.20:9090/phone/getAvailableNumbers",
+  //         `${process.env.REACT_APP_API_BASE_URL}/phone/getAvailableNumbers`,
   //         {
   //           headers: {
   //             Authorization: `Bearer ${token}`,
@@ -58,7 +58,7 @@ const ContactList = () => {
                   try {
                     // Send DELETE request with contact ID
                     axios.delete(
-                      `http://192.168.29.20:9090/user/${contactId}`,
+                      `${process.env.REACT_APP_API_BASE_URL}/user/${contactId}`,
                       {
                         headers: {
                           Authorization: `Bearer ${token}`,

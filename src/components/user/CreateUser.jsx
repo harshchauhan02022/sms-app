@@ -33,7 +33,7 @@ const CreateUser = ({ onSuccess }) => {
 
   useEffect(() => {
     axios
-      .get("http://192.168.29.20:9090/user/all", {
+      .get(`${process.env.REACT_APP_API_BASE_URL}/user/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -70,7 +70,7 @@ const CreateUser = ({ onSuccess }) => {
 
     try {
        await axios.post(
-        "http://192.168.29.20:9090/user",
+        `${process.env.REACT_APP_API_BASE_URL}/user`,
         {
           firstName,
           lastName,

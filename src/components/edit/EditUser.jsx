@@ -34,7 +34,7 @@ const EditUser = ({ user, handleSave }) => {
     try {
       // Sending PUT request to update the user
       const response = await axios.put(
-        `http://192.168.29.20:9090/user/edit`,
+        `${process.env.REACT_APP_API_BASE_URL}/user/edit`,
         data,
         {
           headers: {

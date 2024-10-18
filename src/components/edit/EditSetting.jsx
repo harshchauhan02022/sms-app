@@ -32,7 +32,7 @@ const EditSetting = ({ user, id, handleSave }) => {
   const handleUpdateSetting = async () => {
     try {
       await axios.put(
-        `http://192.168.29.20:9090/admin/update-email`, // Fixed the typo in the URL
+        `${process.env.REACT_APP_API_BASE_URL}/admin/update-email`, // Fixed the typo in the URL
         Data, // Send the updated Data object
         {
           headers: {

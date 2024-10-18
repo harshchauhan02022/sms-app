@@ -21,7 +21,7 @@ const MainChatTwo = () => {
     const fetchAvailableNumbers = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://192.168.29.20:9090/message/", {
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/message/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
